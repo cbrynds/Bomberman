@@ -7,6 +7,7 @@ module PS2_receiver(
 reg [10:0] store;
 reg [3:0] count;
 wire parity_check;
+reg [7:0] c_data_buffer;
 
 // Store sets of 10 bits into the 'store' register
 always @ (negedge PS2clk) begin
@@ -26,7 +27,11 @@ assign parity_check = ~((store[1] ^ store[8])^(store[2]^store[3])^(store[4]^stor
 always @ (posedge clk) begin
     // If the start of a command has been issued
     if (store[0] == 0 && parity_check == store[9]) begin
-        c_data <= store[8:1];
+        c_data_buffer <= store[8:1];
+        if (c_data_buffer == store[8:1])
+            c_data <= 0;
+        else
+            c_data <= store[8:1];
     end
 end
 

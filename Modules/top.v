@@ -43,8 +43,8 @@ wire gameover, enemy_hit, post_exp_active;
 
 // x, y pixel coords translated to arena coords
 wire [9:0] x_a, y_a;
-assign x_a = x - X_WALL_L;
-assign y_a = y - Y_WALL_U;
+assign x_a = x_pos - X_WALL_L;
+assign y_a = y_pos - Y_WALL_U;
 
 // Infer current direction register
 always @ (posedge clk, posedge reset)
@@ -106,7 +106,7 @@ PS2_receiver receiver(
     .clk(clk),
     .PS2clk(PS2clk),
     .key_data(key_data),
-    .c_data(c_data);
+    .c_data(c_data)
 );
 
 // Infer register for RGB color data signal
