@@ -9,6 +9,14 @@ reg reset;
 always @ (posedge clk) 
     reset <= rst;
 
+// Debounce pushbutton inputs to debounced signals U - A
+wire U, D, L, R, A;
+debounce_button db_u(.clk(clk), .reset(reset), .button(PB_UP), .db_out(U));
+debounce_button db_d(.clk(clk), .reset(reset), .button(PB_UP), .db_out(D));
+debounce_button db_l(.clk(clk), .reset(reset), .button(PB_UP), .db_out(L));
+debounce_button db_r(.clk(clk), .reset(reset), .button(PB_UP), .db_out(R));
+debounce_button db_a(.clk(clk), .reset(reset), .button(PB_UP), .db_out(A));
+
 // Constants
 localparam X_WALL_L = 48;      // end of left wall x coordinate
 localparam Y_WALL_U = 32;      // bottom of top wall y coordinate
@@ -27,7 +35,8 @@ localparam CD_L = 2'b11;
 wire display_on, p_tick;
 wire [9:0] x_pos, y_pos; // VGA x, y pixel locations
 wire [7:0] c_data;
-reg [11:0] rgb_reg, rgb_next;
+reg [11:0] rgb_reg;
+wire [11:0] rgb_next;
 wire [11:0] bomberman_rgb, pillar_rgb, block_rgb,   // Routing vectors for rgb signals out of object modules
             bomb_rgb, exp_rgb, enemy_rgb, 
             background_rgb;
@@ -57,38 +66,43 @@ always @ (posedge clk, posedge reset)
 assign current_dir_next = U ? CD_U :
                             R ? CD_R :
                             D ? CD_D :
-                            L ? CDL : current_dir_reg;
+                            L ? CD_L : current_dir_reg;
 
 // Assert wall_on when x/y pixel coords are outside arena
-assign wall_on = ((x < LEFT_WALL) | (x > RIGHT_WALL) | (y < TOP_WALL) | (y > BOTTOM_WALL)) ? 1 : 0;
+assign wall_on = ((x_pos < LEFT_WALL) | (x_pos > RIGHT_WALL) | (y_pos < TOP_WALL) | (y_pos > BOTTOM_WALL)) ? 1 : 0;
 
 pillar_display pillar_disp_unit(
-
+    .x(x_pos),
+    .y(y_pos),
+    .x_a(x_a),
+    .y_a(y_a),
+    .pillar_on(pillar_on),
+    .rgb_out(pillar_rgb)
 );
 
-bomberman_module bm_module_unit(
+//bomberman_module bm_module_unit(
 
-);
+//);
 
-block_module block_module_unit(
+//block_module block_module_unit(
 
-);
+//);
 
-bomb_module bomb_module_unit(
+//bomb_module bomb_module_unit(
 
-);
+//);
 
-enemy_module enemy_module_unit(
+//enemy_module enemy_module_unit(
 
-);
+//);
 
-game_lives game_lives_unit(
+//game_lives game_lives_unit(
 
-);
+//);
 
-score_display score_display_unit(
+//score_display score_display_unit(
 
-);
+//);
 
 // Module instantiation
 vga_sync vga_driver(
@@ -124,7 +138,7 @@ assign rgb_next = p_tick ?
                     (block_on)                             ? block_rgb :
                     (bomb_on      & bomb_rgb      != 2049) ? bomb_rgb :
                     (exp_on       & exp_rgb       != 2048) ? exp_rgb :
-                    (score_on)                             ? 12'b111111111111;
+                    (score_on)                             ? 12'b111111111111:
                     (wall_on)                              ? background_rgb :
                     12'b001000100000 : rgb_reg;
 

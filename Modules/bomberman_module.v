@@ -2,7 +2,7 @@ module bomberman_module(
     input clk, reset,
     input [9:0] x, y,
     input L, R, U, D,       // Controller direction
-    input [1:0] cd          // Bomberman current direction
+    input [1:0] cd,          // Bomberman current direction
     input bm_blocked, gameover, 
     output bomberman_on, bm_hb_on,
     output [9:0] x_b, y_b,
