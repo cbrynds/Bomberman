@@ -1,14 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <GenRun Id="block_map_synth_1" LaunchPart="xc7a35tcpg236-1" LaunchTime="1700071666">
   <File Type="PA-TCL" Name="block_map.tcl"/>
-  <File Type="RDS-PROPCONSTRS" Name="block_map_drc_synth.rpt"/>
   <File Type="REPORTS-TCL" Name="block_map_reports.tcl"/>
   <File Type="RDS-RDS" Name="block_map.vds"/>
   <File Type="RDS-UTIL" Name="block_map_utilization_synth.rpt"/>
   <File Type="RDS-UTIL-PB" Name="block_map_utilization_synth.pb"/>
   <File Type="RDS-DCP" Name="block_map.dcp"/>
-  <File Type="VDS-TIMINGSUMMARY" Name="block_map_timing_summary_synth.rpt"/>
-  <File Type="VDS-TIMING-PB" Name="block_map_timing_summary_synth.pb"/>
   <FileSet Name="sources" Type="BlockSrcs" RelSrcDir="$PSRCDIR/block_map">
     <File Path="$PSRCDIR/sources_1/ip/block_map/block_map.xci">
       <FileInfo>
@@ -36,9 +33,7 @@
     </Config>
   </FileSet>
   <Strategy Version="1" Minor="2">
-    <StratHandle Name="Vivado Synthesis Defaults" Flow="Vivado Synthesis 2017">
-      <Desc>Vivado Synthesis Defaults</Desc>
-    </StratHandle>
+    <StratHandle Name="Vivado Synthesis Defaults" Flow="Vivado Synthesis 2017"/>
     <Step Id="synth_design"/>
   </Strategy>
 </GenRun>

@@ -1,17 +1,18 @@
 module bomberman_module(
     input clk, reset,
     input [9:0] x, y,
-    input L, R, U, D,       // Controller direction
-    input [1:0] cd,          // Bomberman current direction
-    input bm_blocked, gameover, 
-    output bomberman_on, bm_hb_on,
-    output [9:0] x_b, y_b,
+    input L, R, U, D,       // Controller direction from buttons
+    input [1:0] current_dir,          // Bomberman current direction
+    input bm_blocked, gameover, // asserted when bomberman is blocked by a pillar/he has 0 lives left
+    output bomberman_on,        // Signal asserted when pixel location is within sprite location on screen
+    output bm_hb_on,            // Signal asserted when pixel location is within sprite hitbox location on screen
+    output [9:0] x_b, y_b,      // Top left corner of sprite arena coordinates; bomberman's current pos on screen
     output [11:0] rgb_out
 );
 
 //******************************************************************** CONSTANTS ********************************************************************
 
-localparam TIMER_MAX = 1200000;                 // max value of motion_timer_reg
+localparam TIMER_MAX = 1200000;                 // max value of motion_timer_reg; arbitrary and controls the speed of bomberman
 
 localparam CD_U = 2'b00;                        // current direction register vals
 localparam CD_R = 2'b01;
@@ -137,43 +138,92 @@ wire [9:0] y_b_hit_b_p1 = y_b_hit_b + 1;
 
 // next state logic for bomberman location
 assign x_b_next = (!gameover & !bm_blocked & motion_timer_tick) ?
-                  (cd == CD_R & ~p_c_right & x_b < LOW_RIGHT_X) |                  // can move right into a clear row
-                  (cd == CD_U & p_c_up     & x_b_hit_l_m1[4] == 1) |               // moving up into top right of pillar, go right and around
-                  (cd == CD_D & p_c_down   & x_b_hit_l_m1[4] == 1)? x_b_reg + 1:   // moving down into bottom right of pillar, go right and around
+                  (current_dir == CD_R & ~p_c_right & x_b < LOW_RIGHT_X) |                  // can move right into a clear row
+                  (current_dir == CD_U & p_c_up     & x_b_hit_l_m1[4] == 1) |               // moving up into top right of pillar, go right and around
+                  (current_dir == CD_D & p_c_down   & x_b_hit_l_m1[4] == 1)? x_b_reg + 1:   // moving down into bottom right of pillar, go right and around
                           
-                  (cd == CD_L & ~p_c_left  & x_b > UP_LEFT_X) |                    // can move left into a clear row
-                  (cd == CD_U & p_c_up     & x_b_hit_r_p1[4] == 1) |               // moving up into top left of pillar, go left and around
-                  (cd == CD_D & p_c_down   & x_b_hit_r_p1[4] == 1)                 // moving up into botom left of pillar, go left and around
+                  (current_dir == CD_L & ~p_c_left  & x_b > UP_LEFT_X) |                    // can move left into a clear row
+                  (current_dir == CD_U & p_c_up     & x_b_hit_r_p1[4] == 1) |               // moving up into top left of pillar, go left and around
+                  (current_dir == CD_D & p_c_down   & x_b_hit_r_p1[4] == 1)                 // moving up into botom left of pillar, go left and around
                   ? x_b_reg - 1 : x_b_reg : x_b_reg;
                   
 assign y_b_next = (!gameover & !bm_blocked & motion_timer_tick) ?
-                  (cd == CD_D & ~p_c_down  & y_b < LOW_RIGHT_Y) |                  // can move down a clear column
-                  (cd == CD_R & p_c_right  & y_b_hit_t_m1[4] == 1) |               // moving right into bottom side of pillar, go down and around 
-                  (cd == CD_L & p_c_left   & y_b_hit_t_m1[4]  == 1)? y_b_reg + 1:  // moving left into bottom side of pillar, go down and around
+                  (current_dir == CD_D & ~p_c_down  & y_b < LOW_RIGHT_Y) |                  // can move down a clear column
+                  (current_dir == CD_R & p_c_right  & y_b_hit_t_m1[4] == 1) |               // moving right into bottom side of pillar, go down and around 
+                  (current_dir == CD_L & p_c_left   & y_b_hit_t_m1[4]  == 1)? y_b_reg + 1:  // moving left into bottom side of pillar, go down and around
                   
-                  (cd == CD_U & ~p_c_up    & y_b > (UP_LEFT_Y - BM_HB_OFFSET_9)) | // can move up a clear column 
-                  (cd == CD_R & p_c_right  & y_b_hit_b_p1[4] == 1) |               // moving right into top side of pillar, go up and around
-                  (cd == CD_L & p_c_left   & y_b_hit_b_p1[4] == 1)                 // moving left into top side of pillar, go up and around
+                  (current_dir == CD_U & ~p_c_up    & y_b > (UP_LEFT_Y - BM_HB_OFFSET_9)) | // can move up a clear column 
+                  (current_dir == CD_R & p_c_right  & y_b_hit_b_p1[4] == 1) |               // moving right into top side of pillar, go up and around
+                  (current_dir == CD_L & p_c_left   & y_b_hit_b_p1[4] == 1)                 // moving left into top side of pillar, go up and around
                   ? y_b_reg - 1 : y_b_reg : y_b_reg;
 
       
 //************************************************************ ANIMATION FRAME TIMER **************************************************************
 
+// When bomberman is not walking, he should be standing in the last direction input by the user
+    // This direction is held in the current direction register from the top module
 // Infer register for frame_timer
-always @ (posedge clk, posedge reset)
+always @ (posedge clk, posedge reset) begin
     if (reset)
         frame_timer_reg <= 0;
-    else 
+    else begin
         frame_timer_reg <= frame_timer_next;
+    end
+end
+
+// next state logic for motion timer: increment when bomberman to move and timer less than max, else reset.
+assign frame_timer_next = ((L | R | U | D) & (frame_timer_reg < FRAME_REG_MAX)) ? frame_timer_reg + 1 : 0;
 
 //********************************************************* REGISTER TO INDEX INTO SPRITE ROM *****************************************************
 
-//...
+always @ (posedge clk, posedge reset) begin
+    if (reset)
+        rom_offset_reg <= 0;
+    else
+        rom_offset_reg <= rom_offset_next;
+end
 
+always @ (posedge clk) begin
+    case(current_dir)
+        CD_U: begin
+            case(frame_timer_reg)
+                0: rom_offset_next = U_1;
+                FRAME_CNT_1: rom_offset_next = U_2;
+                FRAME_CNT_2: rom_offset_next = U_1;
+                FRAME_CNT_3: rom_offset_next = U_3;
+            endcase
+        end
+        CD_D: begin
+            case(frame_timer_reg)
+                0: rom_offset_next = D_1;
+                FRAME_CNT_1: rom_offset_next = D_2;
+                FRAME_CNT_2: rom_offset_next = D_1;
+                FRAME_CNT_3: rom_offset_next = D_3;
+            endcase
+        end
+        CD_L: begin
+            case(frame_timer_reg)
+                0: rom_offset_next = R_1;
+                FRAME_CNT_1: rom_offset_next = R_2;
+                FRAME_CNT_2: rom_offset_next = R_1;
+                FRAME_CNT_3: rom_offset_next = R_3;
+            endcase
+        end
+        CD_R: begin
+            case(frame_timer_reg)
+                0: rom_offset_next = R_1;
+                FRAME_CNT_1: rom_offset_next = R_2;
+                FRAME_CNT_2: rom_offset_next = R_1;
+                FRAME_CNT_3: rom_offset_next = R_3;
+            endcase
+        end
+    endcase
+
+end
 //********************************************************** INSTANTIATE ROM & ASSIGN OUTPUTS *****************************************************
 
 // index into the rom using x/y, sprite location, and rom_offset, mirroring x for current direction being left
-wire [11:0] br_addr = (cd == CD_L) ? 15 - (x - x_b_reg) + {(y-y_b_reg+rom_offset_reg), 4'd0} 
+wire [11:0] br_addr = (current_dir == CD_L) ? 15 - (x - x_b_reg) + {(y-y_b_reg+rom_offset_reg), 4'd0} 
                                    :      (x - x_b_reg) + {(y-y_b_reg+rom_offset_reg), 4'd0};
 
 // instantiate bomberman sprite ROM

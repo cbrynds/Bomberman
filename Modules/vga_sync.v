@@ -1,5 +1,5 @@
 module vga_sync(
-    input clk, rst,
+    input clk, reset,
     output hsync, vsync, display_on, p_tick,
     output [9:0] x_pos, y_pos
 );
@@ -31,7 +31,7 @@ wire [1:0] pixel_next;
 wire pixel_tick;
 
 always @ (posedge clk) begin
-    if (rst)
+    if (reset)
         pixel_reg <= 0;
     else
         pixel_reg <= pixel_next;
@@ -46,7 +46,7 @@ reg[9:0] row_pix, next_row_pix, col_pix, next_col_pix;
 
 // Sequential Logic
 always @ (posedge clk) begin
-    if (rst) begin
+    if (reset) begin
         row_pix <= 0;
         col_pix <= 0;
         vsync_reg <= 0;

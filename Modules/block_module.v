@@ -1,14 +1,14 @@
 module block_module
 (
-   input wire clk, reset, display_on,
-   input wire [9:0] x, y, x_a, y_a,     // current pixel location on screen, without and with arena offset subtracted
-   input wire [1:0] cd,                 // bomberman current direction
-   input wire [9:0] x_b, y_b,           // bomberman coordinates
-   input wire [9:0] waddr,              // write address (a) into block map RAM
-   input wire we,                       // write enable to block map RAM
-   output wire [11:0] rgb_out,          // output block rgb
-   output wire block_on,                // asserted when x/y within block location on screen
-   output wire bm_blocked               // asserted when bomberman is blocked by a block at current location and direction
+   input clk, reset, display_on,
+   input [9:0] x, y, x_a, y_a,     // current pixel location on screen, without and with arena offset subtracted
+   input [1:0] cd,                 // bomberman current direction
+   input [9:0] x_b, y_b,           // bomberman coordinates
+   input [9:0] waddr,              // write address (a) into block map RAM
+   input we,                       // write enable to block map RAM
+   output [11:0] rgb_out,          // output block rgb
+   output block_on,                // asserted when x/y within block location on screen
+   output bm_blocked               // asserted when bomberman is blocked by a block at current location and direction
 );
 
 localparam X_WALL_L = 48;                       // end of left wall x coordinate

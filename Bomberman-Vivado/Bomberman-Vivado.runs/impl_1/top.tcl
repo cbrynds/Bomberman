@@ -60,6 +60,7 @@ proc step_failed { step } {
   close $ch
 }
 
+set_msg_config -id {Common 17-41} -limit 10000000
 
 start_step init_design
 set ACTIVE_STEP init_design
@@ -73,8 +74,14 @@ set rc [catch {
   set_property parent.project_path E:/Bomberman/Bomberman-Vivado/Bomberman-Vivado.xpr [current_project]
   set_property ip_output_repo E:/Bomberman/Bomberman-Vivado/Bomberman-Vivado.cache/ip [current_project]
   set_property ip_cache_permissions {read write} [current_project]
+  set_property XPM_LIBRARIES XPM_MEMORY [current_project]
   add_files -quiet E:/Bomberman/Bomberman-Vivado/Bomberman-Vivado.runs/synth_1/top.dcp
-  read_ip -quiet e:/Bomberman/Bomberman-Vivado/Bomberman-Vivado.srcs/sources_1/ip/pillar_dm/pillar_dm.xci
+  read_ip -quiet E:/Bomberman/Bomberman-Vivado/Bomberman-Vivado.srcs/sources_1/ip/pillar_dm/pillar_dm.xci
+  read_ip -quiet E:/Bomberman/Bomberman-Vivado/Bomberman-Vivado.srcs/sources_1/ip/bm_sprite_br/bm_sprite_br.xci
+  read_ip -quiet E:/Bomberman/Bomberman-Vivado/Bomberman-Vivado.srcs/sources_1/ip/block_map/block_map.xci
+  read_ip -quiet E:/Bomberman/Bomberman-Vivado/Bomberman-Vivado.srcs/sources_1/ip/block_dm/block_dm.xci
+  read_ip -quiet e:/Bomberman/Bomberman-Vivado/Bomberman-Vivado.srcs/sources_1/ip/bomb_dm/bomb_dm.xci
+  read_ip -quiet e:/Bomberman/Bomberman-Vivado/Bomberman-Vivado.srcs/sources_1/ip/explosions_br/explosions_br.xci
   read_xdc E:/Bomberman/bomberman_constraints.xdc
   link_design -top top -part xc7a35tcpg236-1
   close_msg_db -file init_design.pb
@@ -152,6 +159,7 @@ start_step write_bitstream
 set ACTIVE_STEP write_bitstream
 set rc [catch {
   create_msg_db write_bitstream.pb
+  set_property XPM_LIBRARIES XPM_MEMORY [current_project]
   catch { write_mem_info -force top.mmi }
   write_bitstream -force top.bit 
   catch {write_debug_probes -quiet -force top}
