@@ -1,6 +1,6 @@
 module score_display(
-input wire clk, reset,   // clock, reset signal inputs for synchronous roms and registers
-    input wire [9:0] x, y,   // vga x/y pixel location
+input clk, reset,   // clock, reset signal inputs for synchronous roms and registers
+    input [9:0] x, y,   // vga x/y pixel location
 	input enemy_hit,         // signal asserted when enemy is hit by explosion
     output reg score_on      // output asserted when x/y are within score location in display
 );

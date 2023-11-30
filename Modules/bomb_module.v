@@ -20,6 +20,8 @@ localparam X_WALL_L = 48;                  // end of left wall x coordinate
 localparam X_WALL_R = 576;                 // begin of right wall x coordinate
 localparam Y_WALL_U = 32;                  // bottom of top wall y coordinate
 localparam Y_WALL_D = 448;                 // top of bottom wall y coordinate
+localparam ARENA_WIDTH = 528;              // added parameter to keep track of right side of arena
+localparam ARENA_HEIGHT = 432;             // added parameter to keep track of bottom of arena
 
 localparam BOMB_COUNTER_MAX = 220000000;   // max values for counters used for bomb and explosion timing
 localparam EXP_COUNTER_MAX  = 120000000;
@@ -114,48 +116,52 @@ always @ (*) begin
    post_exp_active     = 0;
    
    case(bomb_exp_state_reg)
-   no_bomb: begin
-    if (A && ~gameover) begin
-        bomb_active_reg = 1;
-        bomb_x_reg = x_bomb_a[9:4];
-        bomb_y_reg = y_bomb_a[9:4];
-        bomb_exp_state_reg = bomb;
-    end
-    end
-    bomb: begin
-        if (bomb_counter_reg == BOMB_COUNTER_MAX) begin
-            bomb_active_reg = 0;
-            exp_active_reg = 1;
-            block_we_reg = 1;
-            bomb_exp_state_reg = exp_1;
+       no_bomb: begin
+            if (A && !gameover) begin
+                bomb_active_next = 1;
+                bomb_x_next = x_bomb_a[9:4];
+                bomb_y_next = y_bomb_a[9:4];
+                bomb_exp_state_next = bomb_exp_state_reg + 1;
+            end
         end
-    end
-    exp_1: begin
-        if (bomb_x_reg != 0)
-            exp_block_addr_next = (bomb_x_reg - 1) + bomb_y_reg * 33;
-        bomb_exp_state_reg = exp_2;
-    end
-    exp_2: begin
-        exp_block_addr_next = (bomb_x_reg + 1) + bomb_y_reg * 33;
-        bomb_exp_state_reg = exp_3;
-    end
-    exp_3: begin
-        if (bomb_y_reg != 0)
-            exp_block_addr_next = bomb_x_reg + (bomb_y_reg - 1) * 33;
-        bomb_exp_state_reg = exp_4;
-    end
-    exp_4: begin
-        exp_block_addr_next = bomb_x_reg + (bomb_y_reg + 1) * 33;
-        bomb_exp_state_reg = post_exp;
-    end
-    post_exp: begin
-        post_exp_active = 1;
-        if (exp_counter_reg == EXP_COUNTER_MAX) begin
-            exp_active_reg = 0;
-            block_we_reg = 0;
-            bomb_exp_state_reg = no_bomb;
+        bomb: begin
+            if (bomb_counter_reg == BOMB_COUNTER_MAX) begin
+                bomb_active_next = 0;
+                exp_active_next = 1;
+                block_we_next = 1;
+                bomb_exp_state_next = bomb_exp_state_reg + 1;
+            end
         end
-    end
+        exp_1: begin
+            if (bomb_x_reg > 0)
+                exp_block_addr_next = (bomb_x_reg - 1) + bomb_y_reg * 33;
+            bomb_exp_state_next = bomb_exp_state_reg + 1;
+        end
+        exp_2: begin
+           if (bomb_x_reg < ARENA_WIDTH)
+                exp_block_addr_next = (bomb_x_reg + 1) + bomb_y_reg * 33;
+            bomb_exp_state_next = bomb_exp_state_reg + 1;
+        end
+        exp_3: begin
+            if (bomb_y_reg > 0)
+                exp_block_addr_next = bomb_x_reg + (bomb_y_reg - 1) * 33;
+            bomb_exp_state_next = bomb_exp_state_reg + 1;
+        end
+        exp_4: begin
+           if (bomb_y_reg < ARENA_HEIGHT)
+                exp_block_addr_next = bomb_x_reg + (bomb_y_reg + 1) * 33;
+            bomb_exp_state_next = bomb_exp_state_reg + 1;
+        end
+        post_exp: begin
+            post_exp_active = 1;
+            if (exp_counter_reg == EXP_COUNTER_MAX) begin
+                exp_active_next = 0;
+                block_we_next = 0;
+                bomb_exp_state_next = 0;
+            end
+        end
+        default:
+            bomb_exp_state_next = bomb_exp_state_reg + 1;
    endcase
    
 end        // END FSM next-state logic 

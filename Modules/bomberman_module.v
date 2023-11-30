@@ -159,10 +159,6 @@ assign y_b_next = (!gameover & !bm_blocked & motion_timer_tick) ?
 
       
 //************************************************************ ANIMATION FRAME TIMER **************************************************************
-
-// When bomberman is not walking, he should be standing in the last direction input by the user
-    // This direction is held in the current direction register from the top module
-// Infer register for frame_timer
 always @ (posedge clk, posedge reset) begin
     if (reset)
         frame_timer_reg <= 0;
@@ -183,7 +179,7 @@ always @ (posedge clk, posedge reset) begin
         rom_offset_reg <= rom_offset_next;
 end
 
-always @ (posedge clk) begin
+always @ (*) begin
     case(current_dir)
         CD_U: begin
             case(frame_timer_reg)
@@ -218,7 +214,6 @@ always @ (posedge clk) begin
             endcase
         end
     endcase
-
 end
 //********************************************************** INSTANTIATE ROM & ASSIGN OUTPUTS *****************************************************
 

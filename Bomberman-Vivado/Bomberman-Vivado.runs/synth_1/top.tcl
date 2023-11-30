@@ -17,7 +17,6 @@ proc create_report { reportName command } {
   }
 }
 set_param xicom.use_bs_reader 1
-set_msg_config -id {Common 17-41} -limit 10000000
 create_project -in_memory -part xc7a35tcpg236-1
 
 set_param project.singleFileAddWarning.threshold 0
@@ -35,14 +34,21 @@ add_files E:/Bomberman/graphics/pillar.coe
 add_files E:/Bomberman/graphics/bomberman_sprites_10.coe
 add_files E:/Bomberman/graphics/block_map.coe
 add_files E:/Bomberman/graphics/block.coe
-add_files e:/Bomberman/graphics/bomb.coe
-add_files e:/Bomberman/graphics/explosions.coe
+add_files E:/Bomberman/graphics/bomb.coe
+add_files E:/Bomberman/graphics/explosions.coe
+add_files E:/Bomberman/graphics/enemy_sprites.coe
 read_verilog -library xil_defaultlib {
+  E:/Bomberman/Modules/LFSR.v
+  E:/Bomberman/Modules/binary_to_bcd_converter.v
   E:/Bomberman/Modules/block_module.v
   E:/Bomberman/Modules/bomb_module.v
   E:/Bomberman/Modules/bomberman_module.v
   E:/Bomberman/Modules/debounce_button.v
+  E:/Bomberman/Modules/enemy_module.v
+  E:/Bomberman/Modules/game_lives.v
+  E:/Bomberman/Modules/numbers_rom.v
   E:/Bomberman/Modules/pillar_display.v
+  E:/Bomberman/Modules/score_display.v
   E:/Bomberman/Modules/vga_sync.v
   E:/Bomberman/Modules/top.v
 }
@@ -58,11 +64,14 @@ set_property used_in_implementation false [get_files -all e:/Bomberman/Bomberman
 read_ip -quiet E:/Bomberman/Bomberman-Vivado/Bomberman-Vivado.srcs/sources_1/ip/block_dm/block_dm.xci
 set_property used_in_implementation false [get_files -all e:/Bomberman/Bomberman-Vivado/Bomberman-Vivado.srcs/sources_1/ip/block_dm/block_dm_ooc.xdc]
 
-read_ip -quiet e:/Bomberman/Bomberman-Vivado/Bomberman-Vivado.srcs/sources_1/ip/bomb_dm/bomb_dm.xci
+read_ip -quiet E:/Bomberman/Bomberman-Vivado/Bomberman-Vivado.srcs/sources_1/ip/bomb_dm/bomb_dm.xci
 set_property used_in_implementation false [get_files -all e:/Bomberman/Bomberman-Vivado/Bomberman-Vivado.srcs/sources_1/ip/bomb_dm/bomb_dm_ooc.xdc]
 
-read_ip -quiet e:/Bomberman/Bomberman-Vivado/Bomberman-Vivado.srcs/sources_1/ip/explosions_br/explosions_br.xci
+read_ip -quiet E:/Bomberman/Bomberman-Vivado/Bomberman-Vivado.srcs/sources_1/ip/explosions_br/explosions_br.xci
 set_property used_in_implementation false [get_files -all e:/Bomberman/Bomberman-Vivado/Bomberman-Vivado.srcs/sources_1/ip/explosions_br/explosions_br_ooc.xdc]
+
+read_ip -quiet E:/Bomberman/Bomberman-Vivado/Bomberman-Vivado.srcs/sources_1/ip/enemy_sprite_br/enemy_sprite_br.xci
+set_property used_in_implementation false [get_files -all e:/Bomberman/Bomberman-Vivado/Bomberman-Vivado.srcs/sources_1/ip/enemy_sprite_br/enemy_sprite_br_ooc.xdc]
 
 # Mark all dcp files as not used in implementation to prevent them from being
 # stitched into the results of this synthesis run. Any black boxes in the

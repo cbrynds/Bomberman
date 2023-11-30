@@ -23,6 +23,8 @@ localparam CD_L = 2'b11;
 
 localparam X_WALL_L = 48;                   // end of left wall x coordinate
 localparam Y_WALL_U = 31;                   // bottom of top wall y coordinate
+localparam ARENA_WIDTH = 528;              // added parameter to keep track of right side of arena
+localparam ARENA_HEIGHT = 432;             // added parameter to keep track of bottom of arena
 
 localparam ENEMY_WH = 16;                   // enemy width/height
 
@@ -59,6 +61,11 @@ wire [5:0] y_e_abm = y_e_a[9:4];
 
 wire [15:0] random_16;                                   // output from LFSR module
 
+// x, y pixel coords translated to arena coords
+wire [9:0] x_a, y_a;
+assign x_a = x - X_WALL_L;
+assign y_a = y - Y_WALL_U;
+
 // infer LFSR module, used to get pseudorandom direction for enemy and pseudorandom chance of getting new direction
 LFSR_16 LFSR_16_unit(.clk(clk), .rst(reset), .w_en(), .w_in(), .out(random_16));
 
@@ -66,27 +73,27 @@ LFSR_16 LFSR_16_unit(.clk(clk), .rst(reset), .w_en(), .w_in(), .out(random_16));
 always @(posedge clk, posedge reset)
     if (reset)
         begin
-        e_state_reg          <= idle;
-        x_e_reg              <= ENEMY_X_INIT;          
-        y_e_reg              <= ENEMY_Y_INIT;
-        e_cd_reg             <= CD_U;
-        motion_timer_reg     <= 0;
-		  motion_timer_max_reg <= TIMER_MAX;
-        move_cnt_reg         <= 0;  
+            e_state_reg          <= idle;
+            x_e_reg              <= ENEMY_X_INIT;          
+            y_e_reg              <= ENEMY_Y_INIT;
+            e_cd_reg             <= CD_U;
+            motion_timer_reg     <= 0;
+            motion_timer_max_reg <= TIMER_MAX;
+            move_cnt_reg         <= 0;  
         end
     else
         begin
-        e_state_reg          <= e_state_next;
-        x_e_reg              <= x_e_next;
-        y_e_reg              <= y_e_next;
-        e_cd_reg             <= e_cd_next;
-        motion_timer_reg     <= motion_timer_next;
-		  motion_timer_max_reg <= motion_timer_max_next;
-        move_cnt_reg         <= move_cnt_next;
+            e_state_reg          <= e_state_next;
+            x_e_reg              <= x_e_next;
+            y_e_reg              <= y_e_next;
+            e_cd_reg             <= e_cd_next;
+            motion_timer_reg     <= motion_timer_next;
+            motion_timer_max_reg <= motion_timer_max_next;
+            move_cnt_reg         <= move_cnt_next;
         end
  
 // FSM next-state logic
-always @*
+always @ (*)
    begin 
    // defaults
    e_state_next          = e_state_reg;
@@ -94,17 +101,79 @@ always @*
    y_e_next              = y_e_reg;
    e_cd_next             = e_cd_reg;
    motion_timer_next     = motion_timer_reg; 
-	motion_timer_max_next = motion_timer_max_reg;
+    motion_timer_max_next = motion_timer_max_reg;
    move_cnt_next         = move_cnt_reg;  
 	enemy_hit             = 0;
    
-/*
    case(e_state_reg)
-   
-	// insert FSM
-	
+      idle: begin
+         if (exp_on && enemy_on) begin
+            motion_timer_next = 0;
+            enemy_hit = 1;
+            e_state_next = exp_enemy;
+         end
+         else if (motion_timer_reg == motion_timer_max_reg) begin
+            if (move_cnt_reg < 15) begin
+               move_cnt_next = move_cnt_reg + 1;
+               e_state_next = move_btwn_tiles;
+            end
+            else begin
+               move_cnt_next = 0;
+               e_state_next = get_rand_dir;
+            end
+         end
+         else begin
+            motion_timer_next = motion_timer_reg + 1;
+            e_state_next = idle;
+        end
+      end
+      exp_enemy: begin
+         if (!post_exp_active) begin
+            motion_timer_next = 0;
+            motion_timer_max_next = motion_timer_max_reg / 2; // Arbitrarily speed up the enemy's movement
+            enemy_hit = 0;
+            e_state_next = idle;
+         end
+         else
+            e_state_next = exp_enemy;
+      end
+      move_btwn_tiles: begin
+//         // Move one pixel in current direction
+//        case (e_cd_reg)
+//            CD_U: begin
+//                y_e_next = y_e_reg + 1;
+//                x_e_next = x_e_reg;
+//            end
+//            CD_D: begin
+//                y_e_next = y_e_reg - 1;
+//                x_e_next = x_e_reg;
+//            end
+//            CD_L: begin
+//                x_e_next = x_e_reg - 1;
+//                y_e_next = y_e_reg;
+//            end
+//            CD_R: begin
+//                x_e_next = x_e_reg + 1;
+//                y_e_next = y_e_reg;
+//            end
+//        endcase
+            e_state_next = idle;
+      end
+      get_rand_dir: begin
+         e_cd_next = (random_16[4:2] == 2'b00) ? random_16[1:0] : e_cd_reg;
+         e_state_next = check_dir;
+      end
+      // Check if colliding with walls or pillar
+      check_dir: begin
+         case(e_cd_reg)
+            CD_U: e_state_next = (y_e_a == 0 || x_e_a[4] == 1) ? get_rand_dir : move_btwn_tiles;
+            CD_L: e_state_next = (x_e_a == 0 || y_e_a[4] == 1) ? get_rand_dir : move_btwn_tiles;
+            CD_R: e_state_next = (x_e_a == ARENA_WIDTH || y_e_a[4] == 1) ? get_rand_dir : move_btwn_tiles;
+            CD_D: e_state_next = (y_e_a == ARENA_HEIGHT || x_e_a[4] == 1) ? get_rand_dir : move_btwn_tiles;
+//            default: e_state_next = move_btwn_tiles;
+        endcase
+      end
    endcase
-	*/
 end         
                         
 // assign output telling top_module when to display bomberman's sprite on screen

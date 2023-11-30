@@ -32,6 +32,12 @@ localparam CD_R = 2'b01;
 localparam CD_D = 2'b10;
 localparam CD_L = 2'b11;
 
+localparam W_KEY = 8'h1D;       // Keyboard scancodes
+localparam A_KEY = 8'h1C;
+localparam S_KEY = 8'h1B;
+localparam D_KEY = 8'h23;
+localparam ENTER_KEY = 8'h5A;
+
 // Signals 
 wire display_on, p_tick;
 wire [9:0] x_pos, y_pos; // VGA x, y pixel locations
@@ -40,15 +46,15 @@ reg [11:0] rgb_reg;
 wire [11:0] rgb_next;
 wire [11:0] bomberman_rgb, pillar_rgb, block_rgb,   // Routing vectors for rgb signals out of object modules
             bomb_rgb, exp_rgb, enemy_rgb, 
-            background_rgb;
+            background_rgb, healthbar_rgb;
 wire bomberman_on, pillar_on, block_on,             // Signals asserted when x,y located within objects
     bomb_on, exp_on, enemy_on, 
-    bm_hb_on, score_on;
+    bm_hb_on, score_on, healthbar_on;
 wire [9:0] x_b, y_b;
 reg [1:0] current_dir_reg; // Reg to hold current direction of bomberman and next state logic
 wire [1:0] current_dir_next;
 wire wall_on, bomberman_blocked, block_we;
-wire [9:0] block_w_adder;
+wire [9:0] block_w_addr;
 wire gameover, enemy_hit, post_exp_active;
 
 // x, y pixel coords translated to arena coords
@@ -68,6 +74,17 @@ assign current_dir_next = U ? CD_U :
                             R ? CD_R :
                             D ? CD_D :
                             L ? CD_L : current_dir_reg;
+
+// Current direction register next-state logic using keyboard as input
+// always @  (posedge clk) begin
+//     case(c_data)
+//         W_KEY: current_dir_next <= CD_U;
+//         A_EKY: current_dir_next <= CD_L;
+//         S_KEY: current_dir_next <= CD_D;
+//         D_KEY: current_dir_next <= CD_R;
+//         default: current_dir_next <= current_dir_reg;
+//     endcase
+// end
 
 // Assert wall_on when x/y pixel coords are outside arena
 assign wall_on = ((x_pos < LEFT_WALL) | (x_pos > RIGHT_WALL) | (y_pos < TOP_WALL) | (y_pos > BOTTOM_WALL)) ? 1 : 0;
@@ -110,7 +127,6 @@ bomb_module bomb_module_unit(.clk(clk), .reset(reset),
     .post_exp_active(post_exp_active)
 );
 
-/*
 enemy_module enemy_module_unit(.clk(clk), .reset(reset), .display_on(display_on),
     .x(x_pos), .y(y_pos), .x_b(x_b), .y_b(y_b),
     .exp_on(exp_on), .post_exp_active(post_exp_active),
@@ -118,15 +134,14 @@ enemy_module enemy_module_unit(.clk(clk), .reset(reset), .display_on(display_on)
 );
 
 game_lives game_lives_unit(.clk(clk), .reset(reset), .x(x_pos), .y(y_pos), .bm_hb_on(bm_hb_on),
-    .enemy_on(enemy_on), .exp_on(exp_on), .gameover(gameover),
-    .background_rgb(background_rgb)
+    .enemy_on(enemy_on), .exp_on(exp_on), .gameover(gameover), .healthbar_on(healthbar_on), 
+    .healthbar_rgb(healthbar_rgb),.background_rgb(background_rgb)
 );
 
 score_display score_display_unit(.clk(clk), .reset(reset), 
     .x(x_pos), .y(y_pos),
     .enemy_hit(enemy_hit), .score_on(score_on)
 );
-*/
 
 vga_sync vga_driver(.clk(clk), .reset(reset),
     .hsync(hsync), .vsync(vsync),
@@ -158,6 +173,7 @@ assign rgb_next = p_tick ?
                     (bomb_on      & bomb_rgb      != 2049) ? bomb_rgb :
                     (exp_on       & exp_rgb       != 2048) ? exp_rgb :
                     (score_on)                             ? 12'b111111111111:
+                    (healthbar_on)                         ? healthbar_rgb :        // Added to implement healthbar feature
                     (wall_on)                              ? background_rgb :
                     12'b001000100000 : rgb_reg;
 

@@ -1,14 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <GenRun Id="explosions_br_synth_1" LaunchPart="xc7a35tcpg236-1" LaunchTime="1700166709">
   <File Type="PA-TCL" Name="explosions_br.tcl"/>
-  <File Type="RDS-PROPCONSTRS" Name="explosions_br_drc_synth.rpt"/>
   <File Type="REPORTS-TCL" Name="explosions_br_reports.tcl"/>
   <File Type="RDS-RDS" Name="explosions_br.vds"/>
   <File Type="RDS-UTIL" Name="explosions_br_utilization_synth.rpt"/>
   <File Type="RDS-UTIL-PB" Name="explosions_br_utilization_synth.pb"/>
   <File Type="RDS-DCP" Name="explosions_br.dcp"/>
-  <File Type="VDS-TIMINGSUMMARY" Name="explosions_br_timing_summary_synth.rpt"/>
-  <File Type="VDS-TIMING-PB" Name="explosions_br_timing_summary_synth.pb"/>
   <FileSet Name="sources" Type="BlockSrcs" RelSrcDir="$PSRCDIR/explosions_br">
     <File Path="$PSRCDIR/sources_1/ip/explosions_br/explosions_br.xci">
       <FileInfo>
@@ -36,9 +33,7 @@
     </Config>
   </FileSet>
   <Strategy Version="1" Minor="2">
-    <StratHandle Name="Vivado Synthesis Defaults" Flow="Vivado Synthesis 2017">
-      <Desc>Vivado Synthesis Defaults</Desc>
-    </StratHandle>
+    <StratHandle Name="Vivado Synthesis Defaults" Flow="Vivado Synthesis 2017"/>
     <Step Id="synth_design"/>
   </Strategy>
 </GenRun>

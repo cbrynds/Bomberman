@@ -60,7 +60,6 @@ proc step_failed { step } {
   close $ch
 }
 
-set_msg_config -id {Common 17-41} -limit 10000000
 
 start_step init_design
 set ACTIVE_STEP init_design
@@ -80,8 +79,9 @@ set rc [catch {
   read_ip -quiet E:/Bomberman/Bomberman-Vivado/Bomberman-Vivado.srcs/sources_1/ip/bm_sprite_br/bm_sprite_br.xci
   read_ip -quiet E:/Bomberman/Bomberman-Vivado/Bomberman-Vivado.srcs/sources_1/ip/block_map/block_map.xci
   read_ip -quiet E:/Bomberman/Bomberman-Vivado/Bomberman-Vivado.srcs/sources_1/ip/block_dm/block_dm.xci
-  read_ip -quiet e:/Bomberman/Bomberman-Vivado/Bomberman-Vivado.srcs/sources_1/ip/bomb_dm/bomb_dm.xci
-  read_ip -quiet e:/Bomberman/Bomberman-Vivado/Bomberman-Vivado.srcs/sources_1/ip/explosions_br/explosions_br.xci
+  read_ip -quiet E:/Bomberman/Bomberman-Vivado/Bomberman-Vivado.srcs/sources_1/ip/bomb_dm/bomb_dm.xci
+  read_ip -quiet E:/Bomberman/Bomberman-Vivado/Bomberman-Vivado.srcs/sources_1/ip/explosions_br/explosions_br.xci
+  read_ip -quiet E:/Bomberman/Bomberman-Vivado/Bomberman-Vivado.srcs/sources_1/ip/enemy_sprite_br/enemy_sprite_br.xci
   read_xdc E:/Bomberman/bomberman_constraints.xdc
   link_design -top top -part xc7a35tcpg236-1
   close_msg_db -file init_design.pb
