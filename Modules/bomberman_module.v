@@ -180,40 +180,43 @@ always @ (posedge clk, posedge reset) begin
 end
 
 always @ (*) begin
-    case(current_dir)
-        CD_U: begin
-            case(frame_timer_reg)
-                0: rom_offset_next = U_1;
-                FRAME_CNT_1: rom_offset_next = U_2;
-                FRAME_CNT_2: rom_offset_next = U_1;
-                FRAME_CNT_3: rom_offset_next = U_3;
-            endcase
-        end
-        CD_D: begin
-            case(frame_timer_reg)
-                0: rom_offset_next = D_1;
-                FRAME_CNT_1: rom_offset_next = D_2;
-                FRAME_CNT_2: rom_offset_next = D_1;
-                FRAME_CNT_3: rom_offset_next = D_3;
-            endcase
-        end
-        CD_L: begin
-            case(frame_timer_reg)
-                0: rom_offset_next = R_1;
-                FRAME_CNT_1: rom_offset_next = R_2;
-                FRAME_CNT_2: rom_offset_next = R_1;
-                FRAME_CNT_3: rom_offset_next = R_3;
-            endcase
-        end
-        CD_R: begin
-            case(frame_timer_reg)
-                0: rom_offset_next = R_1;
-                FRAME_CNT_1: rom_offset_next = R_2;
-                FRAME_CNT_2: rom_offset_next = R_1;
-                FRAME_CNT_3: rom_offset_next = R_3;
-            endcase
-        end
-    endcase
+    if (gameover)
+        rom_offset_next = G_O;
+    else
+        case(current_dir)
+            CD_U: begin
+                case(frame_timer_reg)
+                    0: rom_offset_next = U_1;
+                    FRAME_CNT_1: rom_offset_next = U_2;
+                    FRAME_CNT_2: rom_offset_next = U_1;
+                    FRAME_CNT_3: rom_offset_next = U_3;
+                endcase
+            end
+            CD_D: begin
+                case(frame_timer_reg)
+                    0: rom_offset_next = D_1;
+                    FRAME_CNT_1: rom_offset_next = D_2;
+                    FRAME_CNT_2: rom_offset_next = D_1;
+                    FRAME_CNT_3: rom_offset_next = D_3;
+                endcase
+            end
+            CD_L: begin
+                case(frame_timer_reg)
+                    0: rom_offset_next = R_1;
+                    FRAME_CNT_1: rom_offset_next = R_2;
+                    FRAME_CNT_2: rom_offset_next = R_1;
+                    FRAME_CNT_3: rom_offset_next = R_3;
+                endcase
+            end
+            CD_R: begin
+                case(frame_timer_reg)
+                    0: rom_offset_next = R_1;
+                    FRAME_CNT_1: rom_offset_next = R_2;
+                    FRAME_CNT_2: rom_offset_next = R_1;
+                    FRAME_CNT_3: rom_offset_next = R_3;
+                endcase
+            end
+        endcase
 end
 //********************************************************** INSTANTIATE ROM & ASSIGN OUTPUTS *****************************************************
 

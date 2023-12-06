@@ -23,8 +23,6 @@ localparam CD_L = 2'b11;
 
 localparam X_WALL_L = 48;                   // end of left wall x coordinate
 localparam Y_WALL_U = 31;                   // bottom of top wall y coordinate
-localparam ARENA_WIDTH = 528;              // added parameter to keep track of right side of arena
-localparam ARENA_HEIGHT = 432;             // added parameter to keep track of bottom of arena
 
 localparam ENEMY_WH = 16;                   // enemy width/height
 
@@ -41,7 +39,6 @@ localparam D_3 = 128;
 localparam exp = 144;
 
 localparam TIMER_MAX = 4000000;                          // max value for motion_timer_reg
-
 localparam ENEMY_X_INIT = X_WALL_L + 10*ENEMY_WH;        // enemy initial value
 localparam ENEMY_Y_INIT = Y_WALL_U + 10*ENEMY_WH;        
 
@@ -58,13 +55,9 @@ wire [9:0] x_e_a = (x_e_reg - X_WALL_L);                 // enemy coordinates in
 wire [9:0] y_e_a = (y_e_reg - Y_WALL_U);
 wire [5:0] x_e_abm = x_e_a[9:4];                         // enemy location in ABM coordinates
 wire [5:0] y_e_abm = y_e_a[9:4]; 
+reg [5:0] x_e_abm_next, y_e_abm_next;
 
 wire [15:0] random_16;                                   // output from LFSR module
-
-// x, y pixel coords translated to arena coords
-wire [9:0] x_a, y_a;
-assign x_a = x - X_WALL_L;
-assign y_a = y - Y_WALL_U;
 
 // infer LFSR module, used to get pseudorandom direction for enemy and pseudorandom chance of getting new direction
 LFSR_16 LFSR_16_unit(.clk(clk), .rst(reset), .w_en(), .w_in(), .out(random_16));
@@ -112,21 +105,22 @@ always @ (*)
             enemy_hit = 1;
             e_state_next = exp_enemy;
          end
-         else if (motion_timer_reg == motion_timer_max_reg) begin
-            if (move_cnt_reg < 15) begin
-               move_cnt_next = move_cnt_reg + 1;
-               e_state_next = move_btwn_tiles;
-            end
-            else begin
-               move_cnt_next = 0;
-               e_state_next = get_rand_dir;
-            end
-         end
          else begin
-            motion_timer_next = motion_timer_reg + 1;
-            e_state_next = idle;
+            if (motion_timer_reg != motion_timer_max_reg) motion_timer_next = motion_timer_reg + 1;
+             else begin
+                if (move_cnt_reg == 15) begin
+                   move_cnt_next = 0;
+                    e_state_next = get_rand_dir;
+                end
+                else begin
+                   move_cnt_next = move_cnt_reg + 1;
+                   e_state_next = move_btwn_tiles;
+                end
+                motion_timer_next = 0;
+             end
         end
       end
+      
       exp_enemy: begin
          if (!post_exp_active) begin
             motion_timer_next = 0;
@@ -134,45 +128,30 @@ always @ (*)
             enemy_hit = 0;
             e_state_next = idle;
          end
-         else
-            e_state_next = exp_enemy;
-      end
+     end
+     
       move_btwn_tiles: begin
-//         // Move one pixel in current direction
-//        case (e_cd_reg)
-//            CD_U: begin
-//                y_e_next = y_e_reg + 1;
-//                x_e_next = x_e_reg;
-//            end
-//            CD_D: begin
-//                y_e_next = y_e_reg - 1;
-//                x_e_next = x_e_reg;
-//            end
-//            CD_L: begin
-//                x_e_next = x_e_reg - 1;
-//                y_e_next = y_e_reg;
-//            end
-//            CD_R: begin
-//                x_e_next = x_e_reg + 1;
-//                y_e_next = y_e_reg;
-//            end
-//        endcase
-            e_state_next = idle;
+        // Move one pixel in current direction
+        x_e_next = x_e_reg - (e_cd_reg == CD_L) + (e_cd_reg == CD_R);
+        y_e_next = y_e_reg - (e_cd_reg == CD_U) + (e_cd_reg == CD_D);
+        e_state_next = idle;
       end
+      
       get_rand_dir: begin
          e_cd_next = (random_16[4:2] == 2'b00) ? random_16[1:0] : e_cd_reg;
          e_state_next = check_dir;
       end
+      
       // Check if colliding with walls or pillar
       check_dir: begin
-         case(e_cd_reg)
-            CD_U: e_state_next = (y_e_a == 0 || x_e_a[4] == 1) ? get_rand_dir : move_btwn_tiles;
-            CD_L: e_state_next = (x_e_a == 0 || y_e_a[4] == 1) ? get_rand_dir : move_btwn_tiles;
-            CD_R: e_state_next = (x_e_a == ARENA_WIDTH || y_e_a[4] == 1) ? get_rand_dir : move_btwn_tiles;
-            CD_D: e_state_next = (y_e_a == ARENA_HEIGHT || x_e_a[4] == 1) ? get_rand_dir : move_btwn_tiles;
-//            default: e_state_next = move_btwn_tiles;
+        case (e_cd_reg)
+            CD_U: e_state_next = (y_e_abm == 0 || x_e_abm[0] == 1) ? get_rand_dir : move_btwn_tiles;
+            CD_L: e_state_next = (x_e_abm == 0 || y_e_abm[0] == 1) ? get_rand_dir : move_btwn_tiles;
+            CD_R: e_state_next = (x_e_abm == 32 || y_e_abm[0] == 1) ? get_rand_dir : move_btwn_tiles;
+            CD_D: e_state_next = (y_e_abm == 26 || x_e_abm[0] == 1) ? get_rand_dir : move_btwn_tiles;
+            default: e_state_next = move_btwn_tiles;
         endcase
-      end
+    end
    endcase
 end         
                         

@@ -69,23 +69,12 @@ always @ (posedge clk, posedge reset)
     else
         current_dir_reg <= current_dir_next;
 
-// Current direction register next-state logic
+//Current direction register next-state logic
 assign current_dir_next = U ? CD_U :
                             R ? CD_R :
                             D ? CD_D :
                             L ? CD_L : current_dir_reg;
-
-// Current direction register next-state logic using keyboard as input
-// always @  (posedge clk) begin
-//     case(c_data)
-//         W_KEY: current_dir_next <= CD_U;
-//         A_EKY: current_dir_next <= CD_L;
-//         S_KEY: current_dir_next <= CD_D;
-//         D_KEY: current_dir_next <= CD_R;
-//         default: current_dir_next <= current_dir_reg;
-//     endcase
-// end
-
+                            
 // Assert wall_on when x/y pixel coords are outside arena
 assign wall_on = ((x_pos < LEFT_WALL) | (x_pos > RIGHT_WALL) | (y_pos < TOP_WALL) | (y_pos > BOTTOM_WALL)) ? 1 : 0;
 
@@ -97,7 +86,7 @@ pillar_display pillar_disp_unit(.x(x_pos), .y(y_pos),
 
 bomberman_module bm_module_unit(.clk(clk), .reset(reset),
     .x(x_pos), .y(y_pos),
-    .L(L), .R(R), .U(U), .D(D),
+    .L(L), .R(R), .U(U), .D(D), 
     .current_dir(current_dir_reg),
     .bm_blocked(bm_blocked),
     .gameover(gameover),
@@ -149,13 +138,6 @@ vga_sync vga_driver(.clk(clk), .reset(reset),
     .p_tick(p_tick),
     .x_pos(x_pos), .y_pos(y_pos)
 );
-
-//PS2_receiver receiver(
-//    .clk(clk),
-//    .PS2clk(PS2clk),
-//    .key_data(key_data),
-//    .c_data(c_data)
-//);
 
 // Infer register for RGB color data signal
 always @(posedge clk, posedge reset)

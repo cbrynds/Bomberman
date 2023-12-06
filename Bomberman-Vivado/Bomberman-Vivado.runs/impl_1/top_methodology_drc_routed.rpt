@@ -1,8 +1,8 @@
 Copyright 1986-2017 Xilinx, Inc. All Rights Reserved.
 -----------------------------------------------------------------------------------------------------------------------------------------------
 | Tool Version : Vivado v.2017.4 (win64) Build 2086221 Fri Dec 15 20:55:39 MST 2017
-| Date         : Wed Nov 29 13:19:03 2023
-| Host         : CECSB86MZV2 running 64-bit major release  (build 9200)
+| Date         : Fri Dec  1 21:41:48 2023
+| Host         : CECSB85NZV2 running 64-bit major release  (build 9200)
 | Command      : report_methodology -file top_methodology_drc_routed.rpt -pb top_methodology_drc_routed.pb -rpx top_methodology_drc_routed.rpx
 | Design       : top
 | Device       : xc7a35tcpg236-1
@@ -23,28 +23,16 @@ Table of Contents
           Floorplan: design_1
       Design limits: <entire design considered>
              Max violations: <unlimited>
-             Violations found: 78
+             Violations found: 28
 +-----------+----------+-------------------------------+------------+
 | Rule      | Severity | Description                   | Violations |
 +-----------+----------+-------------------------------+------------+
-| SYNTH-12  | Warning  | DSP input not registered      | 1          |
-| SYNTH-13  | Warning  | combinational multiplier      | 1          |
 | TIMING-18 | Warning  | Missing input or output delay | 20         |
-| TIMING-20 | Warning  | Non-clocked latch             | 56         |
+| TIMING-20 | Warning  | Non-clocked latch             | 8          |
 +-----------+----------+-------------------------------+------------+
 
 2. REPORT DETAILS
 -----------------
-SYNTH-12#1 Warning
-DSP input not registered  
-DSP instance bomb_module_unit/p_2_out is not fully pipelined on the input side. AREG/BREG/CREG/DREG are not used.
-Related violations: <none>
-
-SYNTH-13#1 Warning
-combinational multiplier  
-Detected combinational multiplier in DSP instance bomb_module_unit/p_0_out.
-Related violations: <none>
-
 TIMING-18#1 Warning
 Missing input or output delay  
 An input delay is missing on PB_DOWN relative to clock(s) sys_clk_pin
@@ -183,246 +171,6 @@ Related violations: <none>
 TIMING-20#8 Warning
 Non-clocked latch  
 The latch bm_module_unit/rom_offset_next_reg[7] cannot be properly analyzed as its control pin bm_module_unit/rom_offset_next_reg[7]/G is not reached by a timing clock
-Related violations: <none>
-
-TIMING-20#9 Warning
-Non-clocked latch  
-The latch score_display_unit/bcd_unit/bcd_out_next_reg[0] cannot be properly analyzed as its control pin score_display_unit/bcd_unit/bcd_out_next_reg[0]/G is not reached by a timing clock
-Related violations: <none>
-
-TIMING-20#10 Warning
-Non-clocked latch  
-The latch score_display_unit/bcd_unit/bcd_out_next_reg[10] cannot be properly analyzed as its control pin score_display_unit/bcd_unit/bcd_out_next_reg[10]/G is not reached by a timing clock
-Related violations: <none>
-
-TIMING-20#11 Warning
-Non-clocked latch  
-The latch score_display_unit/bcd_unit/bcd_out_next_reg[11] cannot be properly analyzed as its control pin score_display_unit/bcd_unit/bcd_out_next_reg[11]/G is not reached by a timing clock
-Related violations: <none>
-
-TIMING-20#12 Warning
-Non-clocked latch  
-The latch score_display_unit/bcd_unit/bcd_out_next_reg[12] cannot be properly analyzed as its control pin score_display_unit/bcd_unit/bcd_out_next_reg[12]/G is not reached by a timing clock
-Related violations: <none>
-
-TIMING-20#13 Warning
-Non-clocked latch  
-The latch score_display_unit/bcd_unit/bcd_out_next_reg[13] cannot be properly analyzed as its control pin score_display_unit/bcd_unit/bcd_out_next_reg[13]/G is not reached by a timing clock
-Related violations: <none>
-
-TIMING-20#14 Warning
-Non-clocked latch  
-The latch score_display_unit/bcd_unit/bcd_out_next_reg[14] cannot be properly analyzed as its control pin score_display_unit/bcd_unit/bcd_out_next_reg[14]/G is not reached by a timing clock
-Related violations: <none>
-
-TIMING-20#15 Warning
-Non-clocked latch  
-The latch score_display_unit/bcd_unit/bcd_out_next_reg[15] cannot be properly analyzed as its control pin score_display_unit/bcd_unit/bcd_out_next_reg[15]/G is not reached by a timing clock
-Related violations: <none>
-
-TIMING-20#16 Warning
-Non-clocked latch  
-The latch score_display_unit/bcd_unit/bcd_out_next_reg[1] cannot be properly analyzed as its control pin score_display_unit/bcd_unit/bcd_out_next_reg[1]/G is not reached by a timing clock
-Related violations: <none>
-
-TIMING-20#17 Warning
-Non-clocked latch  
-The latch score_display_unit/bcd_unit/bcd_out_next_reg[2] cannot be properly analyzed as its control pin score_display_unit/bcd_unit/bcd_out_next_reg[2]/G is not reached by a timing clock
-Related violations: <none>
-
-TIMING-20#18 Warning
-Non-clocked latch  
-The latch score_display_unit/bcd_unit/bcd_out_next_reg[3] cannot be properly analyzed as its control pin score_display_unit/bcd_unit/bcd_out_next_reg[3]/G is not reached by a timing clock
-Related violations: <none>
-
-TIMING-20#19 Warning
-Non-clocked latch  
-The latch score_display_unit/bcd_unit/bcd_out_next_reg[4] cannot be properly analyzed as its control pin score_display_unit/bcd_unit/bcd_out_next_reg[4]/G is not reached by a timing clock
-Related violations: <none>
-
-TIMING-20#20 Warning
-Non-clocked latch  
-The latch score_display_unit/bcd_unit/bcd_out_next_reg[5] cannot be properly analyzed as its control pin score_display_unit/bcd_unit/bcd_out_next_reg[5]/G is not reached by a timing clock
-Related violations: <none>
-
-TIMING-20#21 Warning
-Non-clocked latch  
-The latch score_display_unit/bcd_unit/bcd_out_next_reg[6] cannot be properly analyzed as its control pin score_display_unit/bcd_unit/bcd_out_next_reg[6]/G is not reached by a timing clock
-Related violations: <none>
-
-TIMING-20#22 Warning
-Non-clocked latch  
-The latch score_display_unit/bcd_unit/bcd_out_next_reg[7] cannot be properly analyzed as its control pin score_display_unit/bcd_unit/bcd_out_next_reg[7]/G is not reached by a timing clock
-Related violations: <none>
-
-TIMING-20#23 Warning
-Non-clocked latch  
-The latch score_display_unit/bcd_unit/bcd_out_next_reg[8] cannot be properly analyzed as its control pin score_display_unit/bcd_unit/bcd_out_next_reg[8]/G is not reached by a timing clock
-Related violations: <none>
-
-TIMING-20#24 Warning
-Non-clocked latch  
-The latch score_display_unit/bcd_unit/bcd_out_next_reg[9] cannot be properly analyzed as its control pin score_display_unit/bcd_unit/bcd_out_next_reg[9]/G is not reached by a timing clock
-Related violations: <none>
-
-TIMING-20#25 Warning
-Non-clocked latch  
-The latch score_display_unit/bcd_unit/binary_next_reg[10] cannot be properly analyzed as its control pin score_display_unit/bcd_unit/binary_next_reg[10]/G is not reached by a timing clock
-Related violations: <none>
-
-TIMING-20#26 Warning
-Non-clocked latch  
-The latch score_display_unit/bcd_unit/binary_next_reg[11] cannot be properly analyzed as its control pin score_display_unit/bcd_unit/binary_next_reg[11]/G is not reached by a timing clock
-Related violations: <none>
-
-TIMING-20#27 Warning
-Non-clocked latch  
-The latch score_display_unit/bcd_unit/binary_next_reg[12] cannot be properly analyzed as its control pin score_display_unit/bcd_unit/binary_next_reg[12]/G is not reached by a timing clock
-Related violations: <none>
-
-TIMING-20#28 Warning
-Non-clocked latch  
-The latch score_display_unit/bcd_unit/binary_next_reg[13] cannot be properly analyzed as its control pin score_display_unit/bcd_unit/binary_next_reg[13]/G is not reached by a timing clock
-Related violations: <none>
-
-TIMING-20#29 Warning
-Non-clocked latch  
-The latch score_display_unit/bcd_unit/binary_next_reg[1] cannot be properly analyzed as its control pin score_display_unit/bcd_unit/binary_next_reg[1]/G is not reached by a timing clock
-Related violations: <none>
-
-TIMING-20#30 Warning
-Non-clocked latch  
-The latch score_display_unit/bcd_unit/binary_next_reg[2] cannot be properly analyzed as its control pin score_display_unit/bcd_unit/binary_next_reg[2]/G is not reached by a timing clock
-Related violations: <none>
-
-TIMING-20#31 Warning
-Non-clocked latch  
-The latch score_display_unit/bcd_unit/binary_next_reg[3] cannot be properly analyzed as its control pin score_display_unit/bcd_unit/binary_next_reg[3]/G is not reached by a timing clock
-Related violations: <none>
-
-TIMING-20#32 Warning
-Non-clocked latch  
-The latch score_display_unit/bcd_unit/binary_next_reg[4] cannot be properly analyzed as its control pin score_display_unit/bcd_unit/binary_next_reg[4]/G is not reached by a timing clock
-Related violations: <none>
-
-TIMING-20#33 Warning
-Non-clocked latch  
-The latch score_display_unit/bcd_unit/binary_next_reg[5] cannot be properly analyzed as its control pin score_display_unit/bcd_unit/binary_next_reg[5]/G is not reached by a timing clock
-Related violations: <none>
-
-TIMING-20#34 Warning
-Non-clocked latch  
-The latch score_display_unit/bcd_unit/binary_next_reg[6] cannot be properly analyzed as its control pin score_display_unit/bcd_unit/binary_next_reg[6]/G is not reached by a timing clock
-Related violations: <none>
-
-TIMING-20#35 Warning
-Non-clocked latch  
-The latch score_display_unit/bcd_unit/binary_next_reg[7] cannot be properly analyzed as its control pin score_display_unit/bcd_unit/binary_next_reg[7]/G is not reached by a timing clock
-Related violations: <none>
-
-TIMING-20#36 Warning
-Non-clocked latch  
-The latch score_display_unit/bcd_unit/binary_next_reg[8] cannot be properly analyzed as its control pin score_display_unit/bcd_unit/binary_next_reg[8]/G is not reached by a timing clock
-Related violations: <none>
-
-TIMING-20#37 Warning
-Non-clocked latch  
-The latch score_display_unit/bcd_unit/binary_next_reg[9] cannot be properly analyzed as its control pin score_display_unit/bcd_unit/binary_next_reg[9]/G is not reached by a timing clock
-Related violations: <none>
-
-TIMING-20#38 Warning
-Non-clocked latch  
-The latch score_display_unit/bcd_unit/binary_reg_reg[10]_LDC cannot be properly analyzed as its control pin score_display_unit/bcd_unit/binary_reg_reg[10]_LDC/G is not reached by a timing clock
-Related violations: <none>
-
-TIMING-20#39 Warning
-Non-clocked latch  
-The latch score_display_unit/bcd_unit/binary_reg_reg[11]_LDC cannot be properly analyzed as its control pin score_display_unit/bcd_unit/binary_reg_reg[11]_LDC/G is not reached by a timing clock
-Related violations: <none>
-
-TIMING-20#40 Warning
-Non-clocked latch  
-The latch score_display_unit/bcd_unit/binary_reg_reg[12]_LDC cannot be properly analyzed as its control pin score_display_unit/bcd_unit/binary_reg_reg[12]_LDC/G is not reached by a timing clock
-Related violations: <none>
-
-TIMING-20#41 Warning
-Non-clocked latch  
-The latch score_display_unit/bcd_unit/binary_reg_reg[13]_LDC cannot be properly analyzed as its control pin score_display_unit/bcd_unit/binary_reg_reg[13]_LDC/G is not reached by a timing clock
-Related violations: <none>
-
-TIMING-20#42 Warning
-Non-clocked latch  
-The latch score_display_unit/bcd_unit/binary_reg_reg[1]_LDC cannot be properly analyzed as its control pin score_display_unit/bcd_unit/binary_reg_reg[1]_LDC/G is not reached by a timing clock
-Related violations: <none>
-
-TIMING-20#43 Warning
-Non-clocked latch  
-The latch score_display_unit/bcd_unit/binary_reg_reg[2]_LDC cannot be properly analyzed as its control pin score_display_unit/bcd_unit/binary_reg_reg[2]_LDC/G is not reached by a timing clock
-Related violations: <none>
-
-TIMING-20#44 Warning
-Non-clocked latch  
-The latch score_display_unit/bcd_unit/binary_reg_reg[3]_LDC cannot be properly analyzed as its control pin score_display_unit/bcd_unit/binary_reg_reg[3]_LDC/G is not reached by a timing clock
-Related violations: <none>
-
-TIMING-20#45 Warning
-Non-clocked latch  
-The latch score_display_unit/bcd_unit/binary_reg_reg[4]_LDC cannot be properly analyzed as its control pin score_display_unit/bcd_unit/binary_reg_reg[4]_LDC/G is not reached by a timing clock
-Related violations: <none>
-
-TIMING-20#46 Warning
-Non-clocked latch  
-The latch score_display_unit/bcd_unit/binary_reg_reg[5]_LDC cannot be properly analyzed as its control pin score_display_unit/bcd_unit/binary_reg_reg[5]_LDC/G is not reached by a timing clock
-Related violations: <none>
-
-TIMING-20#47 Warning
-Non-clocked latch  
-The latch score_display_unit/bcd_unit/binary_reg_reg[6]_LDC cannot be properly analyzed as its control pin score_display_unit/bcd_unit/binary_reg_reg[6]_LDC/G is not reached by a timing clock
-Related violations: <none>
-
-TIMING-20#48 Warning
-Non-clocked latch  
-The latch score_display_unit/bcd_unit/binary_reg_reg[7]_LDC cannot be properly analyzed as its control pin score_display_unit/bcd_unit/binary_reg_reg[7]_LDC/G is not reached by a timing clock
-Related violations: <none>
-
-TIMING-20#49 Warning
-Non-clocked latch  
-The latch score_display_unit/bcd_unit/binary_reg_reg[8]_LDC cannot be properly analyzed as its control pin score_display_unit/bcd_unit/binary_reg_reg[8]_LDC/G is not reached by a timing clock
-Related violations: <none>
-
-TIMING-20#50 Warning
-Non-clocked latch  
-The latch score_display_unit/bcd_unit/binary_reg_reg[9]_LDC cannot be properly analyzed as its control pin score_display_unit/bcd_unit/binary_reg_reg[9]_LDC/G is not reached by a timing clock
-Related violations: <none>
-
-TIMING-20#51 Warning
-Non-clocked latch  
-The latch score_display_unit/bcd_unit/shift_count_next_reg[0] cannot be properly analyzed as its control pin score_display_unit/bcd_unit/shift_count_next_reg[0]/G is not reached by a timing clock
-Related violations: <none>
-
-TIMING-20#52 Warning
-Non-clocked latch  
-The latch score_display_unit/bcd_unit/shift_count_next_reg[1] cannot be properly analyzed as its control pin score_display_unit/bcd_unit/shift_count_next_reg[1]/G is not reached by a timing clock
-Related violations: <none>
-
-TIMING-20#53 Warning
-Non-clocked latch  
-The latch score_display_unit/bcd_unit/shift_count_next_reg[2] cannot be properly analyzed as its control pin score_display_unit/bcd_unit/shift_count_next_reg[2]/G is not reached by a timing clock
-Related violations: <none>
-
-TIMING-20#54 Warning
-Non-clocked latch  
-The latch score_display_unit/bcd_unit/shift_count_next_reg[3] cannot be properly analyzed as its control pin score_display_unit/bcd_unit/shift_count_next_reg[3]/G is not reached by a timing clock
-Related violations: <none>
-
-TIMING-20#55 Warning
-Non-clocked latch  
-The latch score_display_unit/bcd_unit/state_next_reg[0] cannot be properly analyzed as its control pin score_display_unit/bcd_unit/state_next_reg[0]/G is not reached by a timing clock
-Related violations: <none>
-
-TIMING-20#56 Warning
-Non-clocked latch  
-The latch score_display_unit/bcd_unit/state_next_reg[1] cannot be properly analyzed as its control pin score_display_unit/bcd_unit/state_next_reg[1]/G is not reached by a timing clock
 Related violations: <none>
 
 

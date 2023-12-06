@@ -37,6 +37,7 @@ add_files E:/Bomberman/graphics/block.coe
 add_files E:/Bomberman/graphics/bomb.coe
 add_files E:/Bomberman/graphics/explosions.coe
 add_files E:/Bomberman/graphics/enemy_sprites.coe
+add_files {{E:/EEL5722-Projects/Lab 4  Display PS 2 Keyboard Input on a VGA Monitor/Numbers.coe}}
 read_verilog -library xil_defaultlib {
   E:/Bomberman/Modules/LFSR.v
   E:/Bomberman/Modules/binary_to_bcd_converter.v

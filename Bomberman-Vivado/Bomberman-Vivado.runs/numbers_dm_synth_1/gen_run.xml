@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GenRun Id="numbers_dm_synth_1" LaunchPart="xc7a35tcpg236-1" LaunchTime="1701479537">
+  <File Type="PA-TCL" Name="numbers_dm.tcl"/>
+  <File Type="REPORTS-TCL" Name="numbers_dm_reports.tcl"/>
+  <File Type="RDS-RDS" Name="numbers_dm.vds"/>
+  <File Type="RDS-UTIL" Name="numbers_dm_utilization_synth.rpt"/>
+  <File Type="RDS-UTIL-PB" Name="numbers_dm_utilization_synth.pb"/>
+  <File Type="RDS-DCP" Name="numbers_dm.dcp"/>
+  <FileSet Name="sources" Type="BlockSrcs" RelSrcDir="$PSRCDIR/numbers_dm">
+    <File Path="$PSRCDIR/sources_1/ip/numbers_dm/numbers_dm.xci">
+      <FileInfo>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <Config>
+      <Option Name="TopModule" Val="numbers_dm"/>
+      <Option Name="UseBlackboxStub" Val="1"/>
+    </Config>
+  </FileSet>
+  <FileSet Name="constrs_in" Type="BlockSrcs" RelSrcDir="$PSRCDIR/numbers_dm">
+    <File Path="$PSRCDIR/sources_1/ip/numbers_dm/numbers_dm.xci">
+      <FileInfo>
+        <Attr Name="UsedIn" Val="synthesis"/>
+        <Attr Name="UsedIn" Val="implementation"/>
+        <Attr Name="UsedIn" Val="simulation"/>
+      </FileInfo>
+    </File>
+    <Config>
+      <Option Name="TopModule" Val="numbers_dm"/>
+      <Option Name="UseBlackboxStub" Val="1"/>
+    </Config>
+  </FileSet>
+  <Strategy Version="1" Minor="2">
+    <StratHandle Name="Vivado Synthesis Defaults" Flow="Vivado Synthesis 2017"/>
+    <Step Id="synth_design"/>
+  </Strategy>
+</GenRun>

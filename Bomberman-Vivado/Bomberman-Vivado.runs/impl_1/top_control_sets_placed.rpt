@@ -1,8 +1,8 @@
 Copyright 1986-2017 Xilinx, Inc. All Rights Reserved.
 ------------------------------------------------------------------------------------
 | Tool Version : Vivado v.2017.4 (win64) Build 2086221 Fri Dec 15 20:55:39 MST 2017
-| Date         : Wed Nov 29 13:18:13 2023
-| Host         : CECSB86MZV2 running 64-bit major release  (build 9200)
+| Date         : Fri Dec  1 21:40:50 2023
+| Host         : CECSB85NZV2 running 64-bit major release  (build 9200)
 | Command      : report_control_sets -verbose -file top_control_sets_placed.rpt
 | Design       : top
 | Device       : xc7a35t
@@ -22,8 +22,8 @@ Table of Contents
 +----------------------------------------------------------+-------+
 |                          Status                          | Count |
 +----------------------------------------------------------+-------+
-| Number of unique control sets                            |    67 |
-| Unused register locations in slices containing registers |   364 |
+| Number of unique control sets                            |    31 |
+| Unused register locations in slices containing registers |   100 |
 +----------------------------------------------------------+-------+
 
 
@@ -33,101 +33,64 @@ Table of Contents
 +--------------+-----------------------+------------------------+-----------------+--------------+
 | Clock Enable | Synchronous Set/Reset | Asynchronous Set/Reset | Total Registers | Total Slices |
 +--------------+-----------------------+------------------------+-----------------+--------------+
-| No           | No                    | No                     |              51 |           23 |
-| No           | No                    | Yes                    |             206 |           84 |
-| No           | Yes                   | No                     |              25 |           18 |
+| No           | No                    | No                     |               8 |            5 |
+| No           | No                    | Yes                    |             161 |           51 |
+| No           | Yes                   | No                     |              20 |            9 |
 | Yes          | No                    | No                     |               0 |            0 |
-| Yes          | No                    | Yes                    |             214 |           67 |
-| Yes          | Yes                   | No                     |              20 |           13 |
+| Yes          | No                    | Yes                    |             267 |           93 |
+| Yes          | Yes                   | No                     |              20 |           11 |
 +--------------+-----------------------+------------------------+-----------------+--------------+
 
 
 3. Detailed Control Set Information
 -----------------------------------
 
-+-------------------------------------------------------------+-------------------------------------------------------------------------------------------------------------------+------------------------------------------------------------+------------------+----------------+
-|                         Clock Signal                        |                                                   Enable Signal                                                   |                      Set/Reset Signal                      | Slice Load Count | Bel Load Count |
-+-------------------------------------------------------------+-------------------------------------------------------------------------------------------------------------------+------------------------------------------------------------+------------------+----------------+
-|  score_display_unit/bcd_unit/binary_reg_reg[7]_LDC_i_1_n_1  |                                                                                                                   | score_display_unit/bcd_unit/binary_reg_reg[7]_LDC_i_2_n_1  |                1 |              1 |
-|  score_display_unit/bcd_unit/binary_reg_reg[1]_LDC_i_1_n_1  |                                                                                                                   | score_display_unit/bcd_unit/binary_reg_reg[1]_LDC_i_2_n_1  |                1 |              1 |
-|  score_display_unit/bcd_unit/binary_reg_reg[12]_LDC_i_1_n_1 |                                                                                                                   | score_display_unit/bcd_unit/binary_reg_reg[12]_LDC_i_2_n_1 |                1 |              1 |
-|  score_display_unit/bcd_unit/binary_reg_reg[13]_LDC_i_1_n_1 |                                                                                                                   | score_display_unit/bcd_unit/binary_reg_reg[13]_LDC_i_2_n_1 |                1 |              1 |
-|  score_display_unit/bcd_unit/binary_reg_reg[10]_LDC_i_1_n_1 |                                                                                                                   | score_display_unit/bcd_unit/binary_reg_reg[10]_LDC_i_2_n_1 |                1 |              1 |
-|  score_display_unit/bcd_unit/binary_reg_reg[11]_LDC_i_1_n_1 |                                                                                                                   | score_display_unit/bcd_unit/binary_reg_reg[11]_LDC_i_2_n_1 |                1 |              1 |
-|  score_display_unit/bcd_unit/binary_reg_reg[5]_LDC_i_1_n_1  |                                                                                                                   | score_display_unit/bcd_unit/binary_reg_reg[5]_LDC_i_2_n_1  |                1 |              1 |
-|  score_display_unit/bcd_unit/binary_reg_reg[6]_LDC_i_1_n_1  |                                                                                                                   | score_display_unit/bcd_unit/binary_reg_reg[6]_LDC_i_2_n_1  |                1 |              1 |
-|  clk_IBUF_BUFG                                              |                                                                                                                   | score_display_unit/bcd_unit/binary_reg_reg[1]_LDC_i_1_n_1  |                1 |              1 |
-|  score_display_unit/bcd_unit/binary_reg_reg[3]_LDC_i_1_n_1  |                                                                                                                   | score_display_unit/bcd_unit/binary_reg_reg[3]_LDC_i_2_n_1  |                1 |              1 |
-|  score_display_unit/bcd_unit/binary_reg_reg[4]_LDC_i_1_n_1  |                                                                                                                   | score_display_unit/bcd_unit/binary_reg_reg[4]_LDC_i_2_n_1  |                1 |              1 |
-|  score_display_unit/bcd_unit/binary_reg_reg[9]_LDC_i_1_n_1  |                                                                                                                   | score_display_unit/bcd_unit/binary_reg_reg[9]_LDC_i_2_n_1  |                1 |              1 |
-|  score_display_unit/bcd_unit/binary_reg_reg[2]_LDC_i_1_n_1  |                                                                                                                   | score_display_unit/bcd_unit/binary_reg_reg[2]_LDC_i_2_n_1  |                1 |              1 |
-|  score_display_unit/bcd_unit/binary_reg_reg[8]_LDC_i_1_n_1  |                                                                                                                   | score_display_unit/bcd_unit/binary_reg_reg[8]_LDC_i_2_n_1  |                1 |              1 |
-|  clk_IBUF_BUFG                                              |                                                                                                                   | score_display_unit/bcd_unit/binary_reg_reg[4]_LDC_i_2_n_1  |                1 |              1 |
-|  clk_IBUF_BUFG                                              |                                                                                                                   | score_display_unit/bcd_unit/binary_reg_reg[8]_LDC_i_1_n_1  |                1 |              1 |
-|  clk_IBUF_BUFG                                              |                                                                                                                   | score_display_unit/bcd_unit/binary_reg_reg[8]_LDC_i_2_n_1  |                1 |              1 |
-|  clk_IBUF_BUFG                                              |                                                                                                                   | score_display_unit/bcd_unit/binary_reg_reg[1]_LDC_i_2_n_1  |                1 |              1 |
-|  clk_IBUF_BUFG                                              |                                                                                                                   | score_display_unit/bcd_unit/binary_reg_reg[12]_LDC_i_1_n_1 |                1 |              1 |
-|  clk_IBUF_BUFG                                              |                                                                                                                   | score_display_unit/bcd_unit/binary_reg_reg[13]_LDC_i_2_n_1 |                1 |              1 |
-|  clk_IBUF_BUFG                                              |                                                                                                                   | score_display_unit/bcd_unit/binary_reg_reg[10]_LDC_i_2_n_1 |                1 |              1 |
-|  clk_IBUF_BUFG                                              |                                                                                                                   | score_display_unit/bcd_unit/binary_reg_reg[13]_LDC_i_1_n_1 |                1 |              1 |
-|  clk_IBUF_BUFG                                              |                                                                                                                   | score_display_unit/bcd_unit/binary_reg_reg[10]_LDC_i_1_n_1 |                1 |              1 |
-|  clk_IBUF_BUFG                                              |                                                                                                                   | score_display_unit/bcd_unit/binary_reg_reg[12]_LDC_i_2_n_1 |                1 |              1 |
-|  clk_IBUF_BUFG                                              |                                                                                                                   | score_display_unit/bcd_unit/binary_reg_reg[11]_LDC_i_1_n_1 |                1 |              1 |
-|  clk_IBUF_BUFG                                              |                                                                                                                   | score_display_unit/bcd_unit/binary_reg_reg[11]_LDC_i_2_n_1 |                1 |              1 |
-|  clk_IBUF_BUFG                                              |                                                                                                                   | score_display_unit/bcd_unit/binary_reg_reg[9]_LDC_i_2_n_1  |                1 |              1 |
-|  clk_IBUF_BUFG                                              |                                                                                                                   | score_display_unit/bcd_unit/binary_reg_reg[2]_LDC_i_2_n_1  |                1 |              1 |
-|  clk_IBUF_BUFG                                              |                                                                                                                   | score_display_unit/bcd_unit/binary_reg_reg[5]_LDC_i_1_n_1  |                1 |              1 |
-|  clk_IBUF_BUFG                                              |                                                                                                                   | score_display_unit/bcd_unit/binary_reg_reg[7]_LDC_i_2_n_1  |                1 |              1 |
-|  clk_IBUF_BUFG                                              |                                                                                                                   | score_display_unit/bcd_unit/binary_reg_reg[6]_LDC_i_1_n_1  |                1 |              1 |
-|  clk_IBUF_BUFG                                              |                                                                                                                   | score_display_unit/bcd_unit/binary_reg_reg[5]_LDC_i_2_n_1  |                1 |              1 |
-|  clk_IBUF_BUFG                                              |                                                                                                                   | score_display_unit/bcd_unit/binary_reg_reg[7]_LDC_i_1_n_1  |                1 |              1 |
-|  clk_IBUF_BUFG                                              |                                                                                                                   | score_display_unit/bcd_unit/binary_reg_reg[6]_LDC_i_2_n_1  |                1 |              1 |
-|  clk_IBUF_BUFG                                              |                                                                                                                   | score_display_unit/bcd_unit/binary_reg_reg[3]_LDC_i_1_n_1  |                1 |              1 |
-|  clk_IBUF_BUFG                                              |                                                                                                                   | score_display_unit/bcd_unit/binary_reg_reg[3]_LDC_i_2_n_1  |                1 |              1 |
-|  clk_IBUF_BUFG                                              |                                                                                                                   | score_display_unit/bcd_unit/binary_reg_reg[4]_LDC_i_1_n_1  |                1 |              1 |
-|  clk_IBUF_BUFG                                              |                                                                                                                   | score_display_unit/bcd_unit/binary_reg_reg[9]_LDC_i_1_n_1  |                1 |              1 |
-|  clk_IBUF_BUFG                                              |                                                                                                                   | score_display_unit/bcd_unit/binary_reg_reg[2]_LDC_i_1_n_1  |                1 |              1 |
-|  score_display_unit/bcd_unit/state_next_reg[1]_i_1_n_1      |                                                                                                                   |                                                            |                1 |              2 |
-|  clk_IBUF_BUFG                                              | block_module_unit/block_map_unit/U0/synth_options.dist_mem_inst/gen_dp_ram.dpram_inst/ram_reg_128_255_0_0_i_1_n_0 |                                                            |                1 |              4 |
-|  clk_IBUF_BUFG                                              | block_module_unit/block_map_unit/U0/synth_options.dist_mem_inst/gen_dp_ram.dpram_inst/ram_reg_256_383_0_0_i_1_n_0 |                                                            |                1 |              4 |
-|  clk_IBUF_BUFG                                              | block_module_unit/block_map_unit/U0/synth_options.dist_mem_inst/gen_dp_ram.dpram_inst/ram_reg_384_511_0_0_i_1_n_0 |                                                            |                1 |              4 |
-|  clk_IBUF_BUFG                                              | block_module_unit/block_map_unit/U0/synth_options.dist_mem_inst/gen_dp_ram.dpram_inst/ram_reg_512_639_0_0_i_1_n_0 |                                                            |                1 |              4 |
-|  clk_IBUF_BUFG                                              | block_module_unit/block_map_unit/U0/synth_options.dist_mem_inst/gen_dp_ram.dpram_inst/ram_reg_640_767_0_0_i_1_n_0 |                                                            |                1 |              4 |
-|  clk_IBUF_BUFG                                              | block_module_unit/block_map_unit/U0/synth_options.dist_mem_inst/gen_dp_ram.dpram_inst/ram_reg_768_895_0_0_i_1_n_0 |                                                            |                1 |              4 |
-|  clk_IBUF_BUFG                                              | block_module_unit/block_map_unit/U0/synth_options.dist_mem_inst/gen_dp_ram.dpram_inst/ram_reg_0_127_0_0_i_1_n_0   |                                                            |                1 |              4 |
-|  clk_IBUF_BUFG                                              | enemy_module_unit/move_cnt_next                                                                                   | reset                                                      |                1 |              4 |
-|  clk_IBUF_BUFG                                              | bomb_module_unit/bomb_exp_state_reg[3]_i_1_n_1                                                                    | reset                                                      |                1 |              4 |
-|  bm_module_unit/rom_offset_next_reg[7]_i_2_n_1              |                                                                                                                   |                                                            |                3 |              8 |
-|  clk_IBUF_BUFG                                              |                                                                                                                   |                                                            |                6 |              9 |
-|  clk_IBUF_BUFG                                              |                                                                                                                   | vga_driver/SR[0]                                           |                3 |             10 |
-|  clk_IBUF_BUFG                                              | bm_module_unit/x_b_reg0                                                                                           | reset                                                      |                4 |             10 |
-|  clk_IBUF_BUFG                                              | bm_module_unit/y_b_reg0                                                                                           | reset                                                      |                4 |             10 |
-|  clk_IBUF_BUFG                                              | vga_driver/col_pix0                                                                                               | reset                                                      |                7 |             10 |
-|  clk_IBUF_BUFG                                              | bomb_module_unit/bomb_y_reg[5]_i_1_n_1                                                                            | reset                                                      |                7 |             12 |
-|  clk_IBUF_BUFG                                              | db_a/db_reg[0]_i_1__3_n_1                                                                                         | reset                                                      |                5 |             18 |
-|  clk_IBUF_BUFG                                              | db_d/db_reg[0]_i_1__1_n_1                                                                                         | reset                                                      |                5 |             18 |
-|  clk_IBUF_BUFG                                              | db_l/db_reg[0]_i_1__2_n_1                                                                                         | reset                                                      |                5 |             18 |
-|  clk_IBUF_BUFG                                              | db_r/db_reg[0]_i_1_n_1                                                                                            | reset                                                      |                5 |             18 |
-|  clk_IBUF_BUFG                                              | db_u/db_reg[0]_i_1__0_n_1                                                                                         | reset                                                      |                5 |             18 |
-|  clk_IBUF_BUFG                                              | enemy_module_unit/motion_timer_next                                                                               | reset                                                      |                4 |             22 |
-|  clk_IBUF_BUFG                                              | enemy_module_unit/motion_timer_max_next                                                                           | reset                                                      |                6 |             22 |
-|  clk_IBUF_BUFG                                              | vga_driver/E[0]                                                                                                   | reset                                                      |               13 |             22 |
-|  clk_IBUF_BUFG                                              | bomb_module_unit/E[0]                                                                                             | reset                                                      |                8 |             28 |
-|  n_0_70_BUFG                                                |                                                                                                                   |                                                            |               14 |             33 |
-|  clk_IBUF_BUFG                                              |                                                                                                                   | reset                                                      |               60 |            182 |
-+-------------------------------------------------------------+-------------------------------------------------------------------------------------------------------------------+------------------------------------------------------------+------------------+----------------+
++------------------------------------------------+-------------------------------------------------------------------------------------------------------------------+-----------------------+------------------+----------------+
+|                  Clock Signal                  |                                                   Enable Signal                                                   |    Set/Reset Signal   | Slice Load Count | Bel Load Count |
++------------------------------------------------+-------------------------------------------------------------------------------------------------------------------+-----------------------+------------------+----------------+
+|  clk_IBUF_BUFG                                 | enemy_module_unit/move_cnt_next                                                                                   | reset                 |                1 |              4 |
+|  clk_IBUF_BUFG                                 | bomb_module_unit/bomb_exp_state_reg[3]_i_1_n_0                                                                    | reset                 |                2 |              4 |
+|  clk_IBUF_BUFG                                 | score_display_unit/bcd_unit/bcd_out_reg[15]_i_1_n_0                                                               | reset                 |                2 |              4 |
+|  clk_IBUF_BUFG                                 | score_display_unit/bcd_unit/shift_count_reg[3]_i_1_n_0                                                            | reset                 |                1 |              4 |
+|  clk_IBUF_BUFG                                 | block_module_unit/block_map_unit/U0/synth_options.dist_mem_inst/gen_dp_ram.dpram_inst/ram_reg_0_127_0_0_i_1_n_0   |                       |                1 |              4 |
+|  clk_IBUF_BUFG                                 | block_module_unit/block_map_unit/U0/synth_options.dist_mem_inst/gen_dp_ram.dpram_inst/ram_reg_128_255_0_0_i_1_n_0 |                       |                1 |              4 |
+|  clk_IBUF_BUFG                                 | block_module_unit/block_map_unit/U0/synth_options.dist_mem_inst/gen_dp_ram.dpram_inst/ram_reg_256_383_0_0_i_1_n_0 |                       |                1 |              4 |
+|  clk_IBUF_BUFG                                 | block_module_unit/block_map_unit/U0/synth_options.dist_mem_inst/gen_dp_ram.dpram_inst/ram_reg_384_511_0_0_i_1_n_0 |                       |                1 |              4 |
+|  clk_IBUF_BUFG                                 | block_module_unit/block_map_unit/U0/synth_options.dist_mem_inst/gen_dp_ram.dpram_inst/ram_reg_640_767_0_0_i_1_n_0 |                       |                1 |              4 |
+|  clk_IBUF_BUFG                                 | block_module_unit/block_map_unit/U0/synth_options.dist_mem_inst/gen_dp_ram.dpram_inst/ram_reg_512_639_0_0_i_1_n_0 |                       |                1 |              4 |
+|  clk_IBUF_BUFG                                 | block_module_unit/block_map_unit/U0/synth_options.dist_mem_inst/gen_dp_ram.dpram_inst/ram_reg_768_895_0_0_i_1_n_0 |                       |                1 |              4 |
+|  bm_module_unit/rom_offset_next_reg[7]_i_2_n_0 |                                                                                                                   | game_lives_unit/AR[0] |                4 |              8 |
+|  clk_IBUF_BUFG                                 |                                                                                                                   |                       |                6 |              9 |
+|  clk_IBUF_BUFG                                 |                                                                                                                   | vga_driver/SR[0]      |                3 |             10 |
+|  clk_IBUF_BUFG                                 | bm_module_unit/x_b_reg0                                                                                           | reset                 |                4 |             10 |
+|  clk_IBUF_BUFG                                 | bm_module_unit/y_b_reg0                                                                                           | reset                 |                4 |             10 |
+|  clk_IBUF_BUFG                                 | vga_driver/col_pix0                                                                                               | reset                 |                4 |             10 |
+|  clk_IBUF_BUFG                                 | bomb_module_unit/bomb_y_reg[5]_i_1_n_0                                                                            | reset                 |                8 |             12 |
+|  clk_IBUF_BUFG                                 | score_display_unit/bcd_unit/bcd_out_reg[11]_i_1_n_0                                                               | reset                 |                7 |             12 |
+|  clk_IBUF_BUFG                                 | score_display_unit/bcd_unit/binary_reg[13]_i_1_n_0                                                                | reset                 |                4 |             13 |
+|  clk_IBUF_BUFG                                 | db_d/db_reg[0]_i_1__1_n_0                                                                                         | reset                 |                5 |             18 |
+|  clk_IBUF_BUFG                                 | db_l/db_reg[0]_i_1__2_n_0                                                                                         | reset                 |                5 |             18 |
+|  clk_IBUF_BUFG                                 | db_r/db_reg[0]_i_1__0_n_0                                                                                         | reset                 |                5 |             18 |
+|  clk_IBUF_BUFG                                 | db_u/db_reg[0]_i_1_n_0                                                                                            | reset                 |                5 |             18 |
+|  clk_IBUF_BUFG                                 | db_a/db_reg[0]_i_1__3_n_0                                                                                         | reset                 |                5 |             18 |
+|  clk_IBUF_BUFG                                 | enemy_module_unit/x_e_next                                                                                        | reset                 |                6 |             20 |
+|  clk_IBUF_BUFG                                 | bomb_module_unit/E[0]                                                                                             | reset                 |                7 |             22 |
+|  clk_IBUF_BUFG                                 | bomb_module_unit/motion_timer_max_reg_reg[0][0]                                                                   | reset                 |                6 |             22 |
+|  clk_IBUF_BUFG                                 | vga_driver/E[0]                                                                                                   | reset                 |               15 |             22 |
+|  clk_IBUF_BUFG                                 | game_lives_unit/invisibility_reg0                                                                                 | reset                 |                8 |             28 |
+|  clk_IBUF_BUFG                                 |                                                                                                                   | reset                 |               53 |            163 |
++------------------------------------------------+-------------------------------------------------------------------------------------------------------------------+-----------------------+------------------+----------------+
 
 
 +--------+-----------------------+
 | Fanout | Number of ControlSets |
 +--------+-----------------------+
-| 1      |                    39 |
-| 2      |                     1 |
-| 4      |                     9 |
+| 4      |                    11 |
 | 8      |                     1 |
 | 9      |                     1 |
 | 10     |                     4 |
-| 12     |                     1 |
+| 12     |                     2 |
+| 13     |                     1 |
 | 16+    |                    11 |
 +--------+-----------------------+
 

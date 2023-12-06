@@ -1,0 +1,14 @@
+#-----------------------------------------------------------
+# Vivado v2017.4 (64-bit)
+# SW Build 2086221 on Fri Dec 15 20:55:39 MST 2017
+# IP Build 2085800 on Fri Dec 15 22:25:07 MST 2017
+# Start of session at: Tue Dec  5 17:52:10 2023
+# Process ID: 21516
+# Current directory: D:/Bomberman/Bomberman-Vivado
+# Command line: vivado.exe -gui_launcher_event rodinguilauncherevent10824 D:\Bomberman\Bomberman-Vivado\Bomberman-Vivado.xpr
+# Log file: D:/Bomberman/Bomberman-Vivado/vivado.log
+# Journal file: D:/Bomberman/Bomberman-Vivado\vivado.jou
+#-----------------------------------------------------------
+start_gui
+open_project D:/Bomberman/Bomberman-Vivado/Bomberman-Vivado.xpr
+update_compile_order -fileset sources_1
